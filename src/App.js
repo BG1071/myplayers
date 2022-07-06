@@ -18,24 +18,29 @@ function App() {
   )
 }
 
-function Players() {
-  const [players, setPlayers] = useState([]);
-  useEffect(() => {
-    fetch("http://localhost:5000/player")
+function Players(myPlayers) {
+
+  function loadPlayers(){
+    fetch("http://localhost:8090/myPlayers")
         .then((response) => response.json())
         .then((data) => setPlayers(data))
+  }
+  const [players, setPlayers] = useState([]);
+  const [url, setUrl] = useState("")
+  useEffect(() => {
+    loadPlayers()
   }, [])
 
   return (
       <>
         <div>Spieler</div>
         <ul className="thumbnails">
-          {players.map(players =>
+          {players.map(myPlayers =>
               <li className="span4">
                 <div className="thumbnail">
-                  <img src={players.url}/>
-                  <h3>{players.name + " " + players.vorname}</h3>
-                  <p>{"Nummer:" + " " + players.number}</p>
+                  <img src={myPlayers.url}/>
+                  <h3>{myPlayers.name + " " + myPlayers.vorname}</h3>
+                  <p>{"Nummer:" + " " + myPlayers.number}</p>
                 </div>
               </li>
           )}
